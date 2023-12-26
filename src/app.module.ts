@@ -1,6 +1,11 @@
 // app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UserModule } from './module/user.module';
+import { FlowerModule } from './module/flower.module';
+import { RoleModule } from './module/role.module';
 
 @Module({
   imports: [
@@ -12,11 +17,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: 'mysecretpassword',
       database: 'mydatabase',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false, // Should be false in production
+      synchronize: true, // Should be false in production
     }),
+    UserModule, FlowerModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
 
+export class AppModule {}

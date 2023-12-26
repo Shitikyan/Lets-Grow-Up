@@ -1,7 +1,8 @@
-// user.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, Unique } from 'typeorm';
+import { Role } from './role.entity';
 
 @Entity()
+@Unique(['username', 'email'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -15,5 +16,7 @@ export class User {
   @Column()
   password: string;
 
-  // ... other columns
+  @ManyToMany(() => Role, role => role.users)
+  @JoinTable()
+  roles: Role[];
 }

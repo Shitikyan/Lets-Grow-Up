@@ -12,18 +12,6 @@ services:
     networks:
       - app-network
 
-  nest-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - postgres
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    networks:
-      - app-network
 networks:
   app-network:
     driver: bridge
