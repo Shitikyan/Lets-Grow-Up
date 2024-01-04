@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   postgres:
     image: postgres
@@ -9,6 +10,14 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
     ports:
       - "5432:5432"
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    container_name: redis-server
+    ports:
+      - "6379:6379"
     networks:
       - app-network
 

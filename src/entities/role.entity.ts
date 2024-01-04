@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Unique } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -10,7 +10,6 @@ export class Role {
   @Column()
   name: string;
 
-  @ManyToMany(() => User, user => user.roles)
-  @JoinTable()
+  @OneToMany(() => User, user => user.role) // One role can be assigned to many users
   users: User[];
 }

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Unique } from 'typeorm';
 import { Role } from './role.entity';
 
 @Entity()
@@ -16,7 +16,7 @@ export class User {
   @Column()
   password: string;
 
-  @ManyToMany(() => Role, role => role.users)
-  @JoinTable()
-  roles: Role[];
+  @ManyToOne(() => Role, role => role.users) // Many users can have the same role
+  @JoinColumn()
+  role: Role;
 }

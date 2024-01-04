@@ -23,7 +23,7 @@ export class FlowerController {
   }
 
   @Post(':id/comment')
-  async addComment(@Param('id') id: number, @Body() comment: string): Promise<Flower> {
+  async addComment(@Param('id') id: number, @Body('comment') comment: string): Promise<Flower> {
     return this.flowerService.addComment(id, comment);
   }
 }

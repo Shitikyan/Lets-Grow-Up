@@ -19,7 +19,7 @@ import { RoleModule } from './module/role.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Should be false in production
     }),
-    UserModule, FlowerModule
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
