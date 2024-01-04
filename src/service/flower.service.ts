@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Flower } from '../entities/flower.entity';
+import { RedisService } from './redis.service';
 
 @Injectable()
 export class FlowerService {
   constructor(
     @InjectRepository(Flower)
     private flowerRepository: Repository<Flower>,
-    private readonly eventEmitter: EventEmitter2, // Inject the event emitter
-
+    private readonly redisService: RedisService,
   ) {}
 
   async getAllFlowers(): Promise<Flower[]> {
@@ -36,13 +36,10 @@ export class FlowerService {
     flower.comments.push(comment);
     const updatedFlower = await this.flowerRepository.save(flower);
 
-    // Trigger 'flower.commentAdded' event after adding the comment
-    this.eventEmitter.emit('flower.commentAdded', {
-      comment,
-      flowerId: id,
-      flower: updatedFlower, // Optionally send the updated flower data
-    });
+    await this.flowerRepository.save(flower);
 
-    return updatedFlower;
+    await this.redisService.sendFlowerCommentNotification(comment);
+
+    return flower;
   }
 }

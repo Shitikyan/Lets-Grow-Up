@@ -5,7 +5,7 @@ import { Flower } from '../entities/flower.entity';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { FlowerController } from '../controller/flower.controller';
 import { FlowerService } from '../service/flower.service';
-import { FlowerCommentAddedListener } from '../events/flower-comment.listener';
+import { RedisService } from 'src/service/redis.service';
 
 
 @Module({
@@ -16,7 +16,7 @@ import { FlowerCommentAddedListener } from '../events/flower-comment.listener';
   controllers: [FlowerController],
   providers: [
     FlowerService,
-    FlowerCommentAddedListener,
+    RedisService,
   ],
   exports: [FlowerService],
 })

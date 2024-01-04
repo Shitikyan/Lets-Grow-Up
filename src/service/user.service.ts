@@ -2,6 +2,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from '../dto/user.dto';
 import { User } from '../entities/user.entity';
 import { Role } from '../entities/role.entity';
 
@@ -25,24 +27,31 @@ export class UserService {
     return role;
   }
 
-  async createUser(userData: Partial<User>): Promise<User> {
-    const user = this.userRepository.create(userData);
-    
-    const roleName = userData.role; // Assuming you directly provide role name in userData
-    
-    if (typeof roleName === 'string') {
-      const role = await this.assignRoleToUser(user.id, roleName);
-      if (role) {
-        user.role = role;
+  async createUser(userData: CreateUserDto): Promise<User> {
+    const { username, email, password, role } = userData; // Assuming roleName is provided in the DTO
+  
+    const hashedPassword = await bcrypt.hash(password, 10);   
+  
+    const user = this.userRepository.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+  
+    if (role) {
+      const fetchedRole = await this.roleRepository.findOne({ where: { name: role } }); // Fetch the role by its name
+  
+      if (fetchedRole) {
+        user.role = fetchedRole; // Assign the fetched role to the user
       } else {
-        // Handle the case where the role wasn't assigned
+        // Handle the case where the role wasn't found
         // For example, throw an error or log a warning
       }
     } else {
-      // Handle the case where roleName is not a string or is undefined/null
+      // Handle the case where roleName is not provided in the DTO
       // For example, throw an error or log a warning
     }
-    
+  
     return this.userRepository.save(user);
   }
 
