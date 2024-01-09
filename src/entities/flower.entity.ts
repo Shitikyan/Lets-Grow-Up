@@ -1,4 +1,3 @@
-// flower.entity.ts
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

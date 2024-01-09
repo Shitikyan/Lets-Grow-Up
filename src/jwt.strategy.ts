@@ -9,8 +9,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 interface JwtPayload {
-    username: string;
-  }
+  username: string;
+}
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -29,4 +29,3 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return user;
   }
 }
-

@@ -1,4 +1,3 @@
-// app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -17,12 +16,13 @@ import { RoleModule } from './module/role.module';
       password: 'mysecretpassword',
       database: 'mydatabase',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Should be false in production
+      synchronize: true,
     }),
-    UserModule, FlowerModule, RoleModule
+    UserModule,
+    FlowerModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-
 export class AppModule {}

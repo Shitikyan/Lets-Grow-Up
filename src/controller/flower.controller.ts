@@ -2,6 +2,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { FlowerService } from '../service/flower.service';
 import { Flower } from '../entities/flower.entity';
+import { CreateFlowerDto } from 'src/dto/flower.dto';
 
 @Controller('flowers')
 export class FlowerController {
@@ -18,12 +19,15 @@ export class FlowerController {
   }
 
   @Post()
-  async createFlower(@Body() data: Partial<Flower>): Promise<Flower> {
+  async createFlower(@Body() data: CreateFlowerDto): Promise<Flower> {
     return this.flowerService.createFlower(data);
   }
 
   @Post(':id/comment')
-  async addComment(@Param('id') id: number, @Body('comment') comment: string): Promise<Flower> {
+  async addComment(
+    @Param('id') id: number,
+    @Body('comment') comment: string,
+  ): Promise<Flower> {
     return this.flowerService.addComment(id, comment);
   }
 }

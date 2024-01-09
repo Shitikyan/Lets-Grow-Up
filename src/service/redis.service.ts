@@ -6,10 +6,13 @@ export class RedisService {
   private readonly client: Redis;
 
   constructor() {
-    this.client = new Redis(); 
+    this.client = new Redis();
   }
 
-  public async publishNotification(channel: string, message: string): Promise<void> {
+  public async publishNotification(
+    channel: string,
+    message: string,
+  ): Promise<void> {
     await this.client.publish(channel, message);
   }
 

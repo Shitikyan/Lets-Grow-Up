@@ -14,7 +14,9 @@ export class RoleService {
   ) {}
 
   async createRole(roleName: string): Promise<Role> {
-    const existingRole = await this.roleRepository.findOne({ where: { name: roleName } });
+    const existingRole = await this.roleRepository.findOne({
+      where: { name: roleName },
+    });
 
     if (existingRole) {
       return existingRole;
@@ -24,7 +26,8 @@ export class RoleService {
     return this.roleRepository.save(newRole);
   }
   async getUsersWithRole(roleName: string): Promise<User[]> {
-    const usersWithRole = await this.userRepository.createQueryBuilder('user')
+    const usersWithRole = await this.userRepository
+      .createQueryBuilder('user')
       .innerJoin('user.roles', 'role')
       .where('role.name = :roleName', { roleName })
       .getMany();

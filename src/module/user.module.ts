@@ -10,13 +10,14 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]),
-  RoleModule,
-  JwtModule.register({
-    secret: process.env.JWT_SECRET ,
-    signOptions: { expiresIn: '1h' },
-  }),
-],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    RoleModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
   controllers: [UserController],
   providers: [UserService, AuthService],
 })
