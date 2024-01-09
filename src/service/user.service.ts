@@ -23,26 +23,24 @@ export class UserService {
       role = this.roleRepository.create({ name: roleName });
       role = await this.roleRepository.save(role); 
     }
-    console.log(role)
     return role;
   }
 
   async createUser(userData: CreateUserDto): Promise<User> {
-    const { username, email, password, role } = userData; // Assuming roleName is provided in the DTO
+    const { username, email, password, role } = userData; 
   
-    const hashedPassword = await bcrypt.hash(password, 10);   
   
     const user = this.userRepository.create({
       username,
       email,
-      password: hashedPassword,
+      password,
     });
   
     if (role) {
-      const fetchedRole = await this.roleRepository.findOne({ where: { name: role } }); // Fetch the role by its name
+      const fetchedRole = await this.roleRepository.findOne({ where: { name: role } });
   
       if (fetchedRole) {
-        user.role = fetchedRole; // Assign the fetched role to the user
+        user.role = fetchedRole; 
       } else {
         // Handle the case where the role wasn't found
         // For example, throw an error or log a warning
@@ -64,15 +62,17 @@ export class UserService {
         .where('role.id = :roleId', { roleId: adminRole.id })
         .getMany();
 
-      // Notify admin users about the comment for a specific flowerId
       for (const adminUser of adminUsers) {
         this.sendNotification(adminUser, comment, flowerId);
       }
     }
   }
+
+  async findOne(criteria: Partial<User>): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: criteria });
+  }
+
   private sendNotification(user: User, comment: string, flowerId: number): void {
-    // Implement your notification logic here using flowerId and comment
     console.log(`Notifying admin user ${user.username} about the comment for flower ${flowerId}: ${comment}`);
-    // Send the notification using the respective service or method
   }
 }
