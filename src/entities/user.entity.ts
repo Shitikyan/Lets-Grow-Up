@@ -3,7 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
   Unique,
 } from 'typeorm';
 import { Role } from './role.entity';

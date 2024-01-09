@@ -20,7 +20,7 @@ export class AuthService {
     const user = await this.userService.findOne({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const { password: userPassword, ...result } = user;
+      const { ...result } = user;
       return result;
     }
     return null;
@@ -41,7 +41,7 @@ export class AuthService {
     const { username } = payload;
     const user = await this.userService.findOne({ username });
     if (user) {
-      const { password, ...result } = user;
+      const { ...result } = user;
       return result;
     }
     throw new UnauthorizedException();

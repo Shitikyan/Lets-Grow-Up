@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Flower } from '../entities/flower.entity';
 import { RedisService } from './redis.service';
 
@@ -39,6 +38,6 @@ export class FlowerService {
 
     await this.redisService.sendFlowerCommentNotification(comment);
 
-    return flower;
+    return updatedFlower;
   }
 }

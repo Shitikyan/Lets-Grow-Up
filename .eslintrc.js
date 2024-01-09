@@ -12,7 +12,7 @@ module.exports = {
       'plugin:@typescript-eslint/recommended',
     ],
     rules: {
-      // Add specific rules or overrides as needed
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   };
   

@@ -1,4 +1,3 @@
-// jwt.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -7,10 +6,6 @@ import { UnauthorizedException } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-
-interface JwtPayload {
-  username: string;
-}
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

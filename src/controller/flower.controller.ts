@@ -1,4 +1,3 @@
-// flower.controller.ts
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { FlowerService } from '../service/flower.service';
 import { Flower } from '../entities/flower.entity';
