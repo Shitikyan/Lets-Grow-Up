@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   Unique,
+  OneToMany,
 } from 'typeorm';
 import { Role } from './role.entity';
+import { Order } from './order.entity';
 
 @Entity()
 @Unique(['username', 'email'])
@@ -24,4 +26,7 @@ export class User {
 
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }

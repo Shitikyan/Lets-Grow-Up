@@ -2,10 +2,9 @@ import {
   Injectable,
   ConflictException,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOneOptions } from 'typeorm';
 import { CreateUserDto } from '../dto/user.dto';
 import { User } from '../entities/user.entity';
 import { Role } from '../entities/role.entity';
@@ -53,10 +52,12 @@ export class UserService {
       if (fetchedRole) {
         user.role = fetchedRole;
       } else {
-        throw new NotFoundException('Role not found');
+        const roleName = this.roleRepository.create({ name: role });
+        user.role = await this.roleRepository.save(roleName);
       }
     } else {
-      throw new BadRequestException('Role name is required');
+      const roleName = this.roleRepository.create({ name: role });
+      user.role = await this.roleRepository.save(roleName);
     }
 
     return this.userRepository.save(user);
@@ -84,8 +85,21 @@ export class UserService {
     }
   }
 
-  async findOne(criteria: Partial<User>): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: criteria });
+  async findOne(criteria: FindOneOptions<User>): Promise<User | undefined> {
+    return this.userRepository.findOne(criteria);
+  }
+
+  async getById(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['role'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return user;
   }
 
   private sendNotification(

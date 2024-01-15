@@ -2,7 +2,6 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { AuthService } from 'src/service/auth.service';
 import { CreateUserDto, LoginDto } from 'src/dto/user.dto';
-import { UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 @Controller('users')
@@ -28,12 +27,7 @@ export class UserController {
   @Post('login')
   async loginUser(@Body() credentials: LoginDto): Promise<any> {
     const { username, password } = credentials;
-
     const user = await this.authService.validateUser(username, password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    const token = await this.authService.login(user);
-    return { token };
+    return { user };
   }
 }

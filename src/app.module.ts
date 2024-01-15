@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { UserModule } from './module/user.module';
 import { FlowerModule } from './module/flower.module';
 import { RoleModule } from './module/role.module';
+import { OrderModule } from './module/order.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -16,11 +18,13 @@ import { RoleModule } from './module/role.module';
       password: 'mysecretpassword',
       database: 'mydatabase',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     UserModule,
     FlowerModule,
     RoleModule,
+    OrderModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AppController],
   providers: [AppService],
