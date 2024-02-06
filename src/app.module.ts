@@ -18,7 +18,7 @@ import { PassportModule } from '@nestjs/passport';
       password: 'mysecretpassword',
       database: 'mydatabase',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
     FlowerModule,

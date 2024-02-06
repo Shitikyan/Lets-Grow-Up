@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { Flower } from '../entities/flower.entity';
 import { RedisService } from './redis.service';
 
@@ -39,5 +39,19 @@ export class FlowerService {
     await this.redisService.sendFlowerCommentNotification(comment);
 
     return updatedFlower;
+  }
+  async getAllFlowersByFlowerDetailsId(
+    flowerDetailsId: number,
+  ): Promise<Flower[]> {
+    return this.flowerRepository.find({
+      where: {
+        flowerDetails: { id: flowerDetailsId },
+        order: { id: IsNull() },
+      },
+    });
+  }
+
+  async updateFlower(flower: Flower): Promise<Flower> {
+    return this.flowerRepository.save(flower);
   }
 }

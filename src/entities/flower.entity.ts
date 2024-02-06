@@ -1,6 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+  ManyToOne,
+} from 'typeorm';
+import { FlowerDetails } from './flower-details.entity';
 import { Order } from './order.entity';
-
 @Entity()
 export class Flower {
   @PrimaryGeneratedColumn()
@@ -8,9 +16,6 @@ export class Flower {
 
   @Column()
   qrCode: string;
-
-  @Column()
-  familyName: string;
 
   @Column()
   age: number;
@@ -21,6 +26,13 @@ export class Flower {
   @Column('simple-array')
   comments: string[];
 
-  @OneToMany(() => Order, (order) => order.flower) //
-  orders: Order[];
+  @Column({ default: false })
+  readyToPick: boolean;
+
+  @ManyToOne(() => Order, (order) => order.flower)
+  @JoinColumn({ name: 'orderId' })
+  order: Order;
+
+  @JoinColumn({ name: 'flowerDetailsId' })
+  flowerDetails: FlowerDetails;
 }

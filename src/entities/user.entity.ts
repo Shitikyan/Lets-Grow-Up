@@ -24,9 +24,9 @@ export class User {
   @Column()
   password: string;
 
-  @ManyToOne(() => Role, (role) => role.users)
+  @ManyToOne(() => Role, (role) => role.user)
   role: Role;
 
   @OneToMany(() => Order, (order) => order.user)
-  orders: Order[];
+  order: Order[];
 }
